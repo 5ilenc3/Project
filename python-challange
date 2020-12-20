@@ -1,0 +1,47 @@
+#!/usr/bin/python
+
+import re
+
+def whowin(i):
+    vowel=["A","E","İ","O","U"]
+    if i[0] in vowel:
+        return True
+
+def banana_game(S):
+    subs = []
+    for i in range(0, len(S)):
+        for j in range(0, len(S)):
+            if len(S[i:j]) > 0 and S[i:j] not in subs:
+                whowin(S[i:j])
+                subs.append(S[i:j])
+            if len(S[-i:]) > 0 and S[-i:] not in subs:
+                subs.append(S[-i:])
+
+    return(subs)
+
+if __name__ == "__main__":
+
+    player1=0
+    player2=0
+
+    S = input("string:")
+
+    subs=banana_game(S)
+
+    for i in subs:
+        a = len((re.findall(f"(?={i})", S)))
+        result = whowin(i)
+        if result == True:
+            player1=player1 + a
+        else:
+            player2=player2 + a
+
+    print(player1)
+    print(player2)
+
+    if player1 > player2:
+        print(f"ROGERS win game with {player1} points")
+    elif player1 == player2:
+        print("DRAW")
+    else:
+        print("DAVID win game with {} points".format(player2))
